@@ -1,5 +1,5 @@
 'use strict'
-
+require('dotenv').config();
 const mongoose = require('mongoose');
 const Book = require('./bookModel');
 
@@ -8,7 +8,7 @@ mongoose.connect(process.env.DB_URL);
 const books = [
   {
     title: 'To Kill a Mockingbird',
-    status: 'available',
+    author: 'author',
     description: 'A Pulitzer Prize-winning novel about racism and injustice in a small Southern town during the Great Depression.',
     publicationDate: new Date('1960-07-11'),
     pageCount: 281,
@@ -16,7 +16,7 @@ const books = [
   },
   {
     title: 'The Great Gatsby',
-    status: 'checked out',
+    author: 'author',
     description: 'A novel about the decadence and excess of the Roaring Twenties.',
     publicationDate: new Date('1925-04-10'),
     pageCount: 218,
@@ -24,7 +24,7 @@ const books = [
   },
   {
     title: '1984',
-    status: 'available',
+    author: 'author',
     description: 'A dystopian novel about a totalitarian regime that controls every aspect of citizens\' lives.',
     publicationDate: new Date('1949-06-08'),
     pageCount: 328,
