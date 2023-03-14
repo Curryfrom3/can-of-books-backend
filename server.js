@@ -4,7 +4,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const BookModel = require('./bookModel');
+const Book = require('./bookModel');
 
 // bring in mongoose
 const mongoose = require('mongoose');
@@ -32,13 +32,13 @@ const PORT = process.env.PORT || 3002;
 
 // ROUTES
 app.get('/', (req, res) => {
-  res.send('Welcome to my bookstore API!');
+  res.send('Welcome to my bookstore!');
 });
 
 // Get all books
 app.get('/books', async (req, res, next) => {
   try {
-    const books = await BookModel.find({});
+    const books = await Book.find({});
     res.status(200).send(books);
   } catch (error) {
     next(error);
@@ -48,7 +48,7 @@ app.get('/books', async (req, res, next) => {
 // Create a new book
 app.post('/books', async (req, res, next) => {
   try {
-    const newBook = new BookModel(req.body);
+    const newBook = new Book(req.body);
     const savedBook = await newBook.save();
     res.status(201).send(savedBook);
   } catch (error) {
@@ -59,7 +59,7 @@ app.post('/books', async (req, res, next) => {
 // Get a specific book
 app.get('/books/:id', async (req, res, next) => {
   try {
-    const book = await BookModel.findById(req.params.id);
+    const book = await Book.findById(req.params.id);
     if (!book) {
       return res.status(404).send('Book not found');
     }
@@ -72,7 +72,7 @@ app.get('/books/:id', async (req, res, next) => {
 // Update a book
 app.patch('/books/:id', async (req, res, next) => {
   try {
-    const book = await BookModel.findByIdAndUpdate(req.params.id, req.body, {
+    const book = await Book.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     });
     if (!book) {
@@ -87,7 +87,7 @@ app.patch('/books/:id', async (req, res, next) => {
 // Delete a book
 app.delete('/books/:id', async (req, res, next) => {
   try {
-    const book = await BookModel.findByIdAndDelete(req.params.id);
+    const book = await Book.findByIdAndDelete(req.params.id);
     if (!book) {
       return res.status(404).send('Book not found');
     }
