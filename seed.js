@@ -69,9 +69,8 @@ const books = [
     publicationDate: new Date('2019-05-14'),
     pageCount: 288,
     genre: ['Self-help', 'Motivational']
-  }
-  
-    {
+  },
+  {
     title: 'The Lovely Bones',
     author: 'Alice Sebold',
     description: 'A novel about a teenage girl who is raped and murdered and watches from her personal Heaven as her family and community struggle to move on without her.',
@@ -143,7 +142,6 @@ const books = [
     pageCount: 416,
     genre: ['Philosophy', 'Self-help']
   },
-
   {
     title: 'Charlotte\'s Web',
     author: 'E.B. White',
@@ -184,7 +182,6 @@ const books = [
     pageCount: 240,
     genre: ['Non-fiction', 'Sexuality']
   }
-
 ];
 
 Book.create(books)
