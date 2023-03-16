@@ -84,6 +84,18 @@ app.patch('/books/:id', async (req, res, next) => {
   }
 });
 
+app.put('/book/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, author } = req.body;
+    const book = await Book.findByIdAndUpdate(id, { title, author }, { new: true });
+    res.status(200).json(book);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server Error');
+  }
+});
+
 // Delete a book
 app.delete('/books/:id', async (req, res, next) => {
   try {
