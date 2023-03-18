@@ -8,14 +8,16 @@ const bookSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  author: {
+  description: {
     type: String,
     required: true
   },
-  description: String,
-  publicationDate: Date,
-  pageCount: Number,
-  genre: [String]
+  status: {
+    type: String,
+    // publicationDate: Date,
+    // pageCount: Number,
+    // genre: [String]
+  }
 });
 
 // Export the schema so it can be used in other files

@@ -5,9 +5,23 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const Book = require('./bookModel');
+// USE
+// implement express
+const app = express();
+// middleware
+app.use(cors());
+app.use(express.json());
+app.delete('/books/:id', app.delete);
+
+// define PORT validate env is working
+const PORT = process.env.PORT || 3002;
 
 // bring in mongoose
+
 const mongoose = require('mongoose');
+
+// connect Mongoose to our MongoDB
+mongoose.connect(process.env.DB_URL);
 
 // add validation to confirm we are wired up to our mongo DB
 const db = mongoose.connection;
@@ -16,19 +30,7 @@ db.once('open', function () {
   console.log('Mongoose is connected');
 });
 
-// connect Mongoose to our MongoDB
-mongoose.connect(process.env.DB_URL);
 
-// USE
-// implement express
-const app = express();
-
-// middleware
-app.use(cors());
-app.use(express.json());
-
-// define PORT validate env is working
-const PORT = process.env.PORT || 3002;
 
 // ROUTES
 app.get('/', (req, res) => {
@@ -48,9 +50,9 @@ app.get('/books', async (req, res, next) => {
 // Create a new book
 app.post('/books', async (req, res, next) => {
   try {
-    const newBook = new Book(req.body);
-    const savedBook = await newBook.save();
-    res.status(201).send(savedBook);
+    const newBook = await Book.create(req.body);
+    // const savedBook = await newBook.save();
+    res.status(201).send(newBook);
   } catch (error) {
     next(error);
   }
@@ -97,17 +99,34 @@ app.put('/book/:id', async (req, res) => {
 });
 
 // Delete a book
-app.delete('/books/:id', async (req, res, next) => {
-  try {
-    const book = await Book.findByIdAndDelete(req.params.id);
-    if (!book) {
-      return res.status(404).send('Book not found');
-    }
-    res.status(200).send('Book deleted successfully');
-  } catch (error) {
+// app.delete('/books/:id', async (req, res, next) => {
+//   try {
+//     let id = req.params.id
+//     const book = await Book.findByIdAndDelete(req.params.id);
+//     if (!book) {
+//       return res.status(404).send('Book not found');
+//     }
+//     res.status(200).send('Book deleted successfully');
+//   } catch (error) {
+//     next(error);
+//   }
+// });
+
+
+
+async function deleteBook (req, res, next) {
+  try{
+    let id = req.params.id;
+    await Book.findByIdAndDelete(id);
+    res.status(200).send('Book Deleted');
+    console.log(request);
+  } catch (error){
     next(error);
   }
-});
+}
+
+
+
 
 // ERROR
 app.use((error, req, res, next) => {
